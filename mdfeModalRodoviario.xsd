@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2008 (http://www.altova.com) by sas-sofwares@procergs.rs.gov.br (PROCERGS) -->
 <xs:schema xmlns="http://www.portalfiscal.inf.br/mdfe" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.portalfiscal.inf.br/mdfe" elementFormDefault="qualified" attributeFormDefault="unqualified">
-	<xs:include schemaLocation="tiposGeralMDFe_v1.00.xsd"/>
+	<xs:include schemaLocation="tiposGeralMDFe_v3.00.xsd"/>
 	<xs:simpleType name="TRNTRC">
 		<xs:annotation>
 			<xs:documentation>Tipo RNTRC - Registro Nacional Transportadores Rodoviários de Carga</xs:documentation>
@@ -26,21 +26,135 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="RNTRC" type="TRNTRC" minOccurs="0">
+				<xs:element name="infANTT" minOccurs="0">
 					<xs:annotation>
-						<xs:documentation>Registro Nacional de Transportadores Rodoviários de Carga</xs:documentation>
-						<xs:documentation>Registro obrigatório do emitente do MDF-e junto à ANTT para exercer a atividade de transportador rodoviário de cargas por conta de terceiros e mediante remuneração.
+						<xs:documentation>Grupo de informações para Agência Reguladora</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="RNTRC" type="TRNTRC" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Registro Nacional de Transportadores Rodoviários de Carga</xs:documentation>
+									<xs:documentation>Registro obrigatório do emitente do MDF-e junto à ANTT para exercer a atividade de transportador rodoviário de cargas por conta de terceiros e mediante remuneração.
 						</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="CIOT" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Código Identificador da Operação de Transporte</xs:documentation>
-						<xs:documentation>Também Conhecido como conta frete</xs:documentation>
-					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="TCIOT"/>
-					</xs:simpleType>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="infCIOT" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Dados do CIOT</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="CIOT">
+											<xs:annotation>
+												<xs:documentation>Código Identificador da Operação de Transporte</xs:documentation>
+												<xs:documentation>Também Conhecido como conta frete</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="TCIOT"/>
+											</xs:simpleType>
+										</xs:element>
+										<xs:choice>
+											<xs:element name="CPF" type="TCpf">
+												<xs:annotation>
+													<xs:documentation>Número do CPF responsável pela geração do CIOT</xs:documentation>
+													<xs:documentation>Informar os zeros não significativos.</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="CNPJ" type="TCnpjOpc">
+												<xs:annotation>
+													<xs:documentation>Número do CNPJ responsável pela geração do CIOT</xs:documentation>
+													<xs:documentation>Informar os zeros não significativos.</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:choice>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="valePed" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Informações de Vale Pedágio</xs:documentation>
+									<xs:documentation>Outras informações sobre Vale-Pedágio obrigatório que não tenham campos específicos devem ser informadas no campo de observações gerais de uso livre pelo contribuinte, visando atender as determinações legais vigentes.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="disp" maxOccurs="unbounded">
+											<xs:annotation>
+												<xs:documentation>Informações dos dispositivos do Vale Pedágio</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="CNPJForn">
+														<xs:annotation>
+															<xs:documentation>CNPJ da empresa fornecedora do Vale-Pedágio</xs:documentation>
+															<xs:documentation>- CNPJ da Empresa Fornecedora do Vale-Pedágio, ou seja, empresa que fornece ao Responsável pelo Pagamento do Vale-Pedágio os dispositivos do Vale-Pedágio.
+									- Informar os zeros não significativos.</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="TCnpj"/>
+														</xs:simpleType>
+													</xs:element>
+													<xs:choice minOccurs="0">
+														<xs:element name="CNPJPg" type="TCnpjOpc">
+															<xs:annotation>
+																<xs:documentation>CNPJ do responsável pelo pagamento do Vale-Pedágio</xs:documentation>
+																<xs:documentation>- responsável pelo pagamento do Vale Pedágio. Informar somente quando o responsável não for o emitente do MDF-e.
+									- Informar os zeros não significativos.</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+														<xs:element name="CPFPg" type="TCpf">
+															<xs:annotation>
+																<xs:documentation>CNPJ do responsável pelo pagamento do Vale-Pedágio</xs:documentation>
+																<xs:documentation>Informar os zeros não significativos.</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+													</xs:choice>
+													<xs:element name="nCompra">
+														<xs:annotation>
+															<xs:documentation>Número do comprovante de compra</xs:documentation>
+															<xs:documentation>Número de ordem do comprovante de compra do Vale-Pedágio fornecido para cada veículo ou combinação veicular, por viagem.</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string">
+																<xs:pattern value="[0-9]{1,20}"/>
+															</xs:restriction>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="vValePed" type="TDec_1302">
+														<xs:annotation>
+															<xs:documentation>Valor do Vale-Pedagio</xs:documentation>
+															<xs:documentation>Número de ordem do comprovante de compra do Vale-Pedágio fornecido para cada veículo ou combinação veicular, por viagem.</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="infContratante" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Grupo de informações dos contratantes do serviço de transporte</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="CPF" type="TCpf">
+											<xs:annotation>
+												<xs:documentation>Número do CPF do contratente do serviço</xs:documentation>
+												<xs:documentation>Informar os zeros não significativos.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="CNPJ" type="TCnpjOpc">
+											<xs:annotation>
+												<xs:documentation>Número do CNPJ do contratante do serviço</xs:documentation>
+												<xs:documentation>Informar os zeros não significativos.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
 				</xs:element>
 				<xs:element name="veicTracao">
 					<xs:annotation>
@@ -439,53 +553,6 @@ Só preenchido quando o veículo não pertencer à empresa emitente do MDF-e</xs
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="valePed" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Informações de Vale Pedágio</xs:documentation>
-						<xs:documentation>Outras informações sobre Vale-Pedágio obrigatório que não tenham campos específicos devem ser informadas no campo de observações gerais de uso livre pelo contribuinte, visando atender as determinações legais vigentes.</xs:documentation>
-					</xs:annotation>
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="disp" maxOccurs="unbounded">
-								<xs:annotation>
-									<xs:documentation>Informações dos dispositivos do Vale Pedágio</xs:documentation>
-								</xs:annotation>
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="CNPJForn">
-											<xs:annotation>
-												<xs:documentation>CNPJ da empresa fornecedora do Vale-Pedágio</xs:documentation>
-												<xs:documentation>- CNPJ da Empresa Fornecedora do Vale-Pedágio, ou seja, empresa que fornece ao Responsável pelo Pagamento do Vale-Pedágio os dispositivos do Vale-Pedágio.
-									- Informar os zeros não significativos.</xs:documentation>
-											</xs:annotation>
-											<xs:simpleType>
-												<xs:restriction base="TCnpj"/>
-											</xs:simpleType>
-										</xs:element>
-										<xs:element name="CNPJPg" type="TCnpjOpc" minOccurs="0">
-											<xs:annotation>
-												<xs:documentation>CNPJ do responsável pelo pagamento do Vale-Pedágio</xs:documentation>
-												<xs:documentation>- responsável pelo pagamento do Vale Pedágio. Informar somente quando o responsável não for o emitente do MDF-e.
-									- Informar os zeros não significativos.</xs:documentation>
-											</xs:annotation>
-										</xs:element>
-										<xs:element name="nCompra">
-											<xs:annotation>
-												<xs:documentation>Número do comprovante de compra</xs:documentation>
-												<xs:documentation>Número de ordem do comprovante de compra do Vale-Pedágio fornecido para cada veículo ou combinação veicular, por viagem.</xs:documentation>
-											</xs:annotation>
-											<xs:simpleType>
-												<xs:restriction base="xs:string">
-													<xs:pattern value="[0-9]{1,20}"/>
-												</xs:restriction>
-											</xs:simpleType>
-										</xs:element>
-									</xs:sequence>
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
 				<xs:element name="codAgPorto" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Código de Agendamento no porto</xs:documentation>
@@ -496,6 +563,26 @@ Só preenchido quando o veículo não pertencer à empresa emitente do MDF-e</xs
 							<xs:maxLength value="16"/>
 						</xs:restriction>
 					</xs:simpleType>
+				</xs:element>
+				<xs:element name="lacRodo" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Lacres</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="nLacre">
+								<xs:annotation>
+									<xs:documentation>Número do Lacre</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="TString">
+										<xs:minLength value="1"/>
+										<xs:maxLength value="20"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
 		</xs:complexType>

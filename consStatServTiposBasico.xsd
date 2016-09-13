@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns="http://www.portalfiscal.inf.br/mdfe" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.portalfiscal.inf.br/mdfe" elementFormDefault="qualified" attributeFormDefault="unqualified">
-	<xs:include schemaLocation="tiposGeralMDFe_v1.00.xsd"/>
+	<xs:include schemaLocation="tiposGeralMDFe_v3.00.xsd"/>
 	<xs:complexType name="TConsStatServ">
 		<xs:annotation>
 			<xs:documentation>Tipo Pedido de Consulta do Status do Serviço MDFe</xs:documentation>
@@ -58,9 +58,9 @@
 					<xs:documentation>Código da UF responsável pelo serviço</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="dhRecbto" type="xs:dateTime">
+			<xs:element name="dhRecbto" type="TDateTimeUTC">
 				<xs:annotation>
-					<xs:documentation>AAAA-MM-DDTHH:MM:SS</xs:documentation>
+					<xs:documentation>AAAA-MM-DDTHH:MM:SS TZD</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="tMed" minOccurs="0">
@@ -73,9 +73,9 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element name="dhRetorno" type="xs:dateTime" minOccurs="0">
+			<xs:element name="dhRetorno" type="TDateTimeUTC" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>AAAA-MM-DDTHH:MM:SSDeve ser preenchida com data e hora previstas para o retorno dos serviços prestados.</xs:documentation>
+					<xs:documentation>AAAA-MM-DDTHH:MM:SS TZD. Deve ser preenchida com data e hora previstas para o retorno dos serviços prestados.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="xObs" minOccurs="0">
@@ -98,7 +98,7 @@
 			<xs:documentation> Tipo Versão do Consulta do Status do Serviço MDFe</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:pattern value="1\.00"/>
+			<xs:pattern value="3\.00"/>
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>

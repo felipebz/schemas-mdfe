@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.portalfiscal.inf.br/mdfe" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.portalfiscal.inf.br/mdfe" elementFormDefault="qualified" attributeFormDefault="unqualified">
-	<xs:include schemaLocation="tiposGeralMDFe_v1.00.xsd"/>
+	<xs:include schemaLocation="tiposGeralMDFe_v3.00.xsd"/>
 	<xs:complexType name="TMDFeConsultaDFe">
 		<xs:annotation>
 			<xs:documentation>Tipo Pedido de Consulta do Manifesto Eletrônico de Documentos Fiscais</xs:documentation>
@@ -90,10 +90,10 @@
 	</xs:complexType>
 	<xs:simpleType name="TVerMDFeConsultaDFe">
 		<xs:annotation>
-			<xs:documentation> Tipo Versão do Consulta DFe de MDF-e - 1.00</xs:documentation>
+			<xs:documentation> Tipo Versão do Consulta DFe de MDF-e - 3.00</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:pattern value="1\.00"/>
+			<xs:pattern value="3\.00"/>
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>
